@@ -12,23 +12,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 
 /**
  * ImagePagerAdapter
  * 
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2014-2-23
  */
 public class ImagePagerAdapter extends RecyclingPagerAdapter {
 
-    private Context       context;
-    private List<Integer> imageIdList;
+    private Context       			context;
+    private List<Object>  			imageIdList;
+    private int           			size;
+    private boolean       			isInfiniteLoop;
+    private BannerListener 			bannerListener ; 
 
-    private int           size;
-    private boolean       isInfiniteLoop;
-
-    public ImagePagerAdapter(Context context, List<Integer> imageIdList) {
+    public ImagePagerAdapter(Context context, List<Object> imageIdList) {
+    	if(context instanceof BannerListener){
+    		this.bannerListener = (BannerListener)context; 
+    	}
         this.context = context;
         this.imageIdList = imageIdList;
         this.size = ListUtils.getSize(imageIdList);
@@ -37,7 +38,6 @@ public class ImagePagerAdapter extends RecyclingPagerAdapter {
 
     @Override
     public int getCount() {
-        // Infinite loop
         return isInfiniteLoop ? Integer.MAX_VALUE : ListUtils.getSize(imageIdList);
     }
 
@@ -52,7 +52,7 @@ public class ImagePagerAdapter extends RecyclingPagerAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup container) {
+    public View getView(final int position, View view, ViewGroup container) {
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
@@ -62,21 +62,20 @@ public class ImagePagerAdapter extends RecyclingPagerAdapter {
             holder = (ViewHolder)view.getTag();
         }
         holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        holder.imageView.setImageResource(imageIdList.get(getPosition(position)));
+        MyBannerBean myBannerBean = (MyBannerBean) imageIdList.get(getPosition(position));
+        holder.imageView.setImageResource(myBannerBean.getImageurl());
         view.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Toast.makeText(context, "默认Toast样式",
-					     Toast.LENGTH_SHORT).show();Toast.makeText(context, "默认Toast样式",
-					    	     Toast.LENGTH_SHORT).show();
-				
+				if(null != bannerListener){
+					bannerListener.click(getPosition(position),imageIdList);
+				}
 			}
 		});
         return view;
     }
 
     private static class ViewHolder {
-
         ImageView imageView;
     }
 
@@ -93,5 +92,15 @@ public class ImagePagerAdapter extends RecyclingPagerAdapter {
     public ImagePagerAdapter setInfiniteLoop(boolean isInfiniteLoop) {
         this.isInfiniteLoop = isInfiniteLoop;
         return this;
+    }
+
+    
+    public interface BannerListener{
+    	/**
+    	 * 
+    	 * @param position  当前点击的item位置
+    	 * @param imageList 数据源
+    	 */
+    	 public void click(int position,List<Object> imageList);
     }
 }

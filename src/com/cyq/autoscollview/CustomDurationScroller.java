@@ -6,8 +6,7 @@ import android.widget.Scroller;
 
 /**
  * CustomDurationScroller
- * 
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2014-3-2
+ * 轮播图切换持续时间
  */
 public class CustomDurationScroller extends Scroller {
 
