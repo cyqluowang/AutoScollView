@@ -119,4 +119,12 @@ public class MyBanner extends  RelativeLayout{
 					% ListUtils.getSize(this.imageIdList));
     	}
 	}
+    
+    public void stopAutoScroll() {
+        viewPager.stopAutoScroll();
+    }
+
+    public void startAutoScroll() {
+        viewPager.startAutoScroll();
+    }
 }
