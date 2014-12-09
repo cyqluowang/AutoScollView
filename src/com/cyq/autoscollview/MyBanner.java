@@ -3,6 +3,8 @@ package com.cyq.autoscollview;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cyq.autoscollview.ImagePagerAdapter.BannerListener;
+
 import android.content.Context;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
@@ -79,7 +81,7 @@ public class MyBanner extends  RelativeLayout{
     	LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
-		lp.setMargins(20, 0, 0, 0);
+		lp.setMargins(dp2px(mContext,8), 0, 0, 0);
 		dotViewsList = new ArrayList<ImageView>();
 		for (int i = 0; i < ListUtils.getSize(imageIdList); i++) {
 			ImageView viewDot = new ImageView(mContext);
@@ -119,4 +121,13 @@ public class MyBanner extends  RelativeLayout{
 					% ListUtils.getSize(this.imageIdList));
     	}
 	}
+    
+    public void setBannerListener(BannerListener bannerListener){
+    	imagePagerAdapter.setBannerListener(bannerListener);
+    }
+    
+    public final static int dp2px(Context context, float dpValue) {
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * density + 0.5f);
+    }
 }

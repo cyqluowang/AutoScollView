@@ -103,4 +103,9 @@ public class ImagePagerAdapter extends RecyclingPagerAdapter {
     	 */
     	 public void click(int position,List<Object> imageList);
     }
+    
+    public void setBannerListener(BannerListener bannerListener){
+    	this.bannerListener = bannerListener;
+    }
+
 }
