@@ -122,6 +122,7 @@ public class MyBanner extends  RelativeLayout{
     	}
 	}
     
+
     public void setBannerListener(BannerListener bannerListener){
     	imagePagerAdapter.setBannerListener(bannerListener);
     }
@@ -129,5 +130,13 @@ public class MyBanner extends  RelativeLayout{
     public final static int dp2px(Context context, float dpValue) {
         float density = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * density + 0.5f);
+    }
+    
+    public void stopAutoScroll() {
+        viewPager.stopAutoScroll();
+    }
+
+    public void startAutoScroll() {
+        viewPager.startAutoScroll();
     }
 }
